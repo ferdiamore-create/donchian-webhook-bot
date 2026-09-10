@@ -42,8 +42,46 @@ def webhook():
         "APCA-API-SECRET-KEY": ALPACA_SECRET,
         "Content-Type": "application/json"
     }
+# =====================================================
+    # LIMITE CAPITALE BOT
+    # =====================================================
 
     if action == "BUY":
+
+        positions_url = f"{ALPACA_URL}/v2/positions"
+
+        positions_response = requests.get(
+            positions_url,
+            headers=headers,
+            timeout=3
+        )
+
+        if positions_response.status_code != 200:
+            return jsonify({
+                "error": "Could not get positions",
+                "details": positions_response.text
+            }), 500
+
+        positions = positions_response.json()
+
+        capitale_usato_usd = sum(
+            float(p.get("market_value", 0))
+            for p in positions
+            if float(p.get("qty", 0)) > 0
+        )
+
+        capitale_massimo_usd = BOT_CAPITAL_EUR * 1.17
+        prossima_operazione_usd = TRADE_EUR * 1.17
+
+        if capitale_usato_usd + prossima_operazione_usd > capitale_massimo_usd:
+
+            return jsonify({
+                "status": "BUY BLOCCATO - LIMITE CAPITALE RAGGIUNTO",
+                "capitale_usato_usd": capitale_usato_usd,
+                "limite_usd": capitale_massimo_usd
+            }), 200
+
+    
 
         # Get current stock price
         quote_url = f"{ALPACA_URL}/v2/stocks/{ticker}/quotes/latest"
