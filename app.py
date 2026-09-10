@@ -8,7 +8,8 @@ app = Flask(__name__)
 ALPACA_KEY = os.environ.get("ALPACA_KEY")
 ALPACA_SECRET = os.environ.get("ALPACA_SECRET")
 ALPACA_URL = "https://paper-api.alpaca.markets"
-TRADE_USD = float(os.environ.get("TRADE_USD", "10000"))
+TRADE_USD = float(os.environ.get("TRADE_EUR", "1000"))
+BOT_CAPITAL_EUR = 10000
 
 
 @app.route("/", methods=["GET"])
@@ -65,7 +66,7 @@ def webhook():
         if not ask_price or ask_price <= 0:
             return jsonify({"error": "Invalid stock price"}), 500
 
-        qty = math.floor(TRADE_USD / ask_price)
+        qty = math.floor((TRADE_EUR * 1.17) / ask_price)
 
         if qty < 1:
             return jsonify({
