@@ -8,7 +8,7 @@ app = Flask(__name__)
 ALPACA_KEY = os.environ.get("ALPACA_KEY")
 ALPACA_SECRET = os.environ.get("ALPACA_SECRET")
 ALPACA_URL = "https://paper-api.alpaca.markets"
-TRADE_USD = float(os.environ.get("TRADE_EUR", "1000"))
+TRADE_EUR = float(os.environ.get("TRADE_EUR", "1000"))
 BOT_CAPITAL_EUR = 10000
 
 
