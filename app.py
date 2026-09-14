@@ -8,6 +8,7 @@ app = Flask(__name__)
 ALPACA_KEY = os.environ.get("ALPACA_KEY")
 ALPACA_SECRET = os.environ.get("ALPACA_SECRET")
 ALPACA_URL = "https://paper-api.alpaca.markets"
+ALPACA_DATA_URL = "https://data.alpaca.markets"
 TRADE_EUR = float(os.environ.get("TRADE_EUR", "1000"))
 BOT_CAPITAL_EUR = 10000
 
@@ -84,7 +85,7 @@ def webhook():
     
 
         # Get current stock price
-        quote_url = f"{ALPACA_URL}/v2/stocks/{ticker}/quotes/latest"
+quote_url = f"{ALPACA_DATA_URL}/v2/stocks/{ticker}/quotes/latest"
 
         quote_response = requests.get(
             quote_url,
