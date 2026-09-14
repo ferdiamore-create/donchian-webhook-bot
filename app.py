@@ -85,7 +85,7 @@ def webhook():
     
 
         # Get current stock price
-quote_url = f"{ALPACA_DATA_URL}/v2/stocks/{ticker}/quotes/latest"
+        quote_url = f"{ALPACA_DATA_URL}/v2/stocks/{ticker}/quotes/latest"
 
         quote_response = requests.get(
             quote_url,
